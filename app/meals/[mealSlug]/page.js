@@ -1,25 +1,35 @@
-import React from 'react';
-// import { useRouter } from 'next/router';
+import classes from './page.module.css';
+import Image from 'next/image';
+import { getMealBySlug } from '@/lib/meals';
+
+export default function MealDetailsPage({params}) {
+    const meal = getMealBySlug(params.mealSlug);
+
+    meal.instructions = meal.instructions.replace(/\n/g, '<br />');
 
 
-
-// const MealDetailsPage = () => {
-//     const router = useRouter();
-//     const { mealSlug } = router.query;
-
-//     return (
-//         <div>
-//             <h1>Meal Details</h1>
-//             <p>Details for meal: {mealSlug}</p>
-//         </div>
-//     );
-// };
-
-export default function MealDetailsPage(){
     return (
-        <div>
-            <h1>Meal Details</h1>
-            <p>Details for meal: </p>
-        </div>
+        <>
+            <header className= {classes.header}>
+                <div className={classes.image}>
+                    <Image src={meal.image} alt={meal.title} fill></Image>
+                </div>
+                <div className={classes.headerText}>
+                    <h1>
+                        {meal.title}
+                    </h1>
+                    <p className={classes.creator}>
+                    by <a href={`mailto: ${meal.creator_email}`}>{meal.creator}</a>
+                    </p>
+                    <p className={classes.summary}>
+                        {meal.summary}
+                    </p>
+                </div>
+            </header>
+            <main>
+                <p className={classes.instructions} dangerouslySetInnerHTML={{__html: meal.instructions}}></p>
+            </main>
+
+        </>
     )
 };
