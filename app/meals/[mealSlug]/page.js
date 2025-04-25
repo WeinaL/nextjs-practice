@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 export default async function MealDetailsPage({params}) {
     const meal = await getMealBySlug(params.mealSlug);
 
+    console.log("meal", meal);
+
     if (meal) {
         meal.instructions = meal.instructions.replace(/\n/g, '<br />');
     } else {
